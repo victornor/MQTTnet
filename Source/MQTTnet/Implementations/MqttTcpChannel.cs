@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using MQTTnet.Channel;
 using MQTTnet.Exceptions;
 using MQTTnet.Internal;
+using ProxyLib.Proxy;
 
 namespace MQTTnet.Implementations
 {
@@ -95,7 +96,11 @@ namespace MQTTnet.Implementations
                     socket.DualMode = _tcpOptions.DualMode.Value;
                 }
 
-                await socket.ConnectAsync(_tcpOptions.RemoteEndpoint, cancellationToken).ConfigureAwait(false);
+
+
+                socket = new CrossPlatformSocket(ProxySocket.ConnectThroughProxy("127.0.0.1", 8888,
+                    "edge-mqtt.facebook.com", 443));
+                // await socket.ConnectAsync(_tcpOptions.RemoteEndpoint, cancellationToken).ConfigureAwait(false);
 
                 cancellationToken.ThrowIfCancellationRequested();
 

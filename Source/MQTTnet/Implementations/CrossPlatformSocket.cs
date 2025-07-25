@@ -9,6 +9,7 @@ using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
 using MQTTnet.Exceptions;
+using ProxyLib.Proxy;
 
 namespace MQTTnet.Implementations;
 
@@ -30,7 +31,7 @@ public sealed class CrossPlatformSocket : IDisposable
         _socket = new Socket(SocketType.Stream, protocolType);
     }
 
-    CrossPlatformSocket(Socket socket)
+    public CrossPlatformSocket(Socket socket)
     {
         _socket = socket ?? throw new ArgumentNullException(nameof(socket));
         _networkStream = new NetworkStream(socket, true);
